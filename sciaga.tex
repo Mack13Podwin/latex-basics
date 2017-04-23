@@ -1,0 +1,248 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[MeX]{polski}
+\usepackage{indentfirst} 
+\usepackage{graphicx}
+\usepackage{geometry}
+\usepackage{lipsum}
+\usepackage{url}
+\usepackage{latexsym,amsmath,amssymb,amsthm}
+\usepackage{hyperref}
+
+\frenchspacing
+\geometry{top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm}
+
+\author{Gosia Kaczmarczyk \thanks{autorem pierwowzoru jest doktór Paweł Laskoś-Grabowski, któremu niniejszym dziękuję za udostępnienie materiałów, nieustanne wsparcie i, swego czasu, istotny wpływ na pogłębienie mojego typograficznego nerdostwa.}}
+\title{O \LaTeX u słów kilka}
+\date{Załęcze Wielkie, \today}
+
+\begin{document}
+\maketitle
+
+
+\begin{abstract}
+Dokument ten jest ściągą z zagadnień poruszonych (lub takich, które zamierzałam poruszyć, ale nie zdążyłam) na zajęciach, ale zawiera także garść przydatnych informacji do późniejszego stawiania pierwszych samodzielnych kroków w temacie \LaTeX a. 
+\end{abstract}
+
+
+\section{Podstawy}
+
+Każda komenda \LaTeX owa zaczyna się backslashem ($\mathtt{\backslash}$), a po jej nazwie następują dwa rodzaje argumentów: opcjonalne w nawiasach prostokątnych (\texttt{[]}), obowiązkowe w klamrowych(\texttt{\{\}})). 
+
+Źródła \TeX owe zapisujemy w plikach o rozszerzeniu \texttt{.tex}. Kompilujemy je poleceniem: \begin{verbatim}pdflatex plik.tex\end{verbatim}
+
+Komentarze uzyskujemy przy pomocy znaku: \verb+%+.
+
+\section{Struktura dokumentu}
+
+\subsection{Preambuła}
+
+\begin{itemize}
+\item \verb+\documentclass[a4paper,11pt]{article}+ --- jest to pierwsza komenda w~źródle każdego dokumentu \LaTeX{}-owego. Argument obowiązkowy przyjmuje wartości np. \texttt{article}, \texttt{book}, \texttt{report}, \texttt{beamer}\ldots{} i~razem z~argumentem opcjonalnym reguluje ogólny kształt dokumentu. Tu argument opcjonalny wymusza rozmiar papieru (A4, czasem domyślny jest letter) oraz tekstu (11 punktów zamiast domyślnych 10). 
+\item \verb+\usepackage[MeX]{polski}+ --- jeden ze sposobów określenia języka dokumentu na polski. Język dokumentu \emph{musi} być określony, m.in. po to, by \LaTeX{} poprawnie przenosił wyrazy.
+\item \verb+\usepackage[cp1250]{inputenc}+ --- określenie kodowania znaków źródła. Zależy od ustawień edytora, którym tworzycie źródło. Jeśli nie wiecie, jakie one są, to pod Windows jest to \texttt{cp1250}, a~pod Linuksem -- prawdopodobnie \texttt{latin2} lub \texttt{utf8}.
+\item \verb+\usepackage{geometry}+ --- pakiet zawierający komendę \texttt{geometry}.
+\item \verb+\geometry{a4paper,top=5cm,bottom=5cm,left=5cm,right=5cm}+ --- pozwala regulować rozmiar papieru i~jego marginesy.
+\item \verb+\usepackage{latexsym,amsmath,amssymb,amsthm}+ --- pakiety zawierające dużo symboli matematycznych i~innych ciekawych rzeczy.
+\item \verb+\author{Grzegorz Brzęczyszczykiewicz}+ --- zapisuje nazwisko autora w~metadanych dokumentu.
+\item \verb+\title{Hello, World!}+ --- zapisuje tytuł w~metadanych dokumentu.
+\item \verb+\date{29 lutego 2007}+ --- zapisuje datę utworzenia w~metadanych dokumentu. Można napisać: \verb+\date{\today}+.
+\end{itemize}
+
+\subsection{Część główna}
+Część główna dokumentu, czyli jego treść, znajduje się między komendami \verb+\begin{document}+ a~\verb+\end{document}+. Tekst poniżej tego ostatniego napisu jest ignorowany.\par
+
+Stronę tytułową lub nagłówek dokumentu (w zależności od klasy) wstawiamy poleceniem \verb+\maketitle+.
+
+Warto zwrócić uwagę na to, jak \LaTeX traktuje tzw. \textit{białe znaki}. Kilka spacji następujących po sobie traktowanych jest jak jedna. Tzw. \textit{twardą spację} uzyskujemy, wstawiając zamiast spacji znak tyldy (\verb+~+). Pojedyncze złamanie linii w~źródle traktowane jest jak spacja. Podwójne złamanie linii powoduje natomiast rozpoczęcie nowego akapitu. Taki sam efekt daje polecenie \verb+\par+. Chcąc złamać linię bez kończenia akapitu, piszemy: \verb+\\+ lub~\verb+\newline+. Stosować z rozwagą!
+
+Pisząc tekst, pamiętajmy, by używać tyldy (\verb+~+) zamiast spacji w~miejscach, gdzie nie chcemy złamania wiersza, np. po spójnikach. Komendy bezargumentowe ,,pochłaniają'' spację, więc czasem warto postawić za nimi puste klamry:
+\begin{center}\begin{tabular}{ccc}
+\verb+\LaTeX jest super!+ & tworzy & \LaTeX jest super!\\
+\verb+\LaTeX{} jest super!+ & tworzy & \LaTeX{} jest super!
+\end{tabular}\end{center}
+
+Część znaków w~\LaTeX{}u to znaki specjalne, których nie wprowadzamy bezpośrednio z~klawiatury, tylko przez specjalne sekwencje ukazane w~Tabeli~\ref{znaki}.
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}\hline
+\$ & \# & \& & \% & \_ & \{ & \} & \^{} & \~{} & $\backslash$ \\\hline
+\verb+\$+ & \verb+\#+ & \verb+\&+ & \verb+\%+ & \verb+\_+ & \verb+\{+ & \verb+\}+ & \verb+\^{}+ & \verb+\~{}+ & \verb+$\backslash$+ \\\hline
+\end{tabular}
+\end{center}
+\caption{\label{znaki}Znaki specjalne w~\LaTeX{}u}
+\end{table}
+
+Poza tym warto umieć stosować:
+\begin{itemize}
+\item \verb+,,+, \verb+''+ --- ,,prawdziwe'' cudzysłowy. Użycie \verb+"+ daje "opłakane efekty",
+\item różne odmiany poziomych kresek: \verb+-+, \verb+--+, \verb+---+, \verb+$-$+, czyli: dywiz (-), półpauza (--), myślnik (---), minus ($-$),
+\item \verb+\ldots+ --- wielokropek (\ldots), czyli coś innego niż trzy kropki (...).
+\end{itemize}
+
+\subsubsection{Struktura}
+Do tworzenia logicznej struktury dokumentu służą następujące komendy (w~kolejności od najwyższej do najniższej):
+\begin{enumerate}
+\item \verb+\part{Tytuł}+ --- nie wpływa na numerację rozdziałów, wzorów itd.
+\item \verb+\chapter{Tytuł}+ --- tylko w~klasach \texttt{report} i~\texttt{book}.
+\item \verb+\section{Tytuł}+
+\item \verb+\subsection{Tytuł}+
+\item \verb+\subsubsection{Tytuł}+
+\item \verb+\paragraph{Tytuł}+ --- nie ma nic wspólnego z~komendą łamania akapitu (\verb+\par+).
+\item \verb+\subparagraph{Tytuł}+
+\end{enumerate}
+Powyższe komendy mają również wersje ,,gwiazdkowane'' (np. \verb+\part*{Tytuł}+), które nie mają numerów. Dodatkowo komenda \verb+\appendix+ sprawia, że następujące po niej rozdziały (a~w~klasie \texttt{article} -- sekcji) wyliczane są literami, a~nie liczbami. Komenda \verb+\tableofcontents+ wstawia w~dokumencie spis treści. By został on wygenerowany poprawnie, należy zazwyczaj zastosować dwukrotną kompilację.
+
+\section{Formatowanie}
+
+\subsection{Inne kroje pisma}
+\LaTeX{} pozwala na użycie dodatkowych krojów pisma. Poniżej wymienione komendy jednoargumentowe dają efekt taki, jakim same zostały złożone.
+\begin{itemize}
+\item zmiana kroju --- \textrm{textrm}, \textsf{textsf}, \texttt{texttt}
+\item zmiana ciężaru --- \textmd{textmd}, \textbf{textbf}
+\item zmiana odmiany --- \textup{textup}, \textit{textit}, \textsl{textsl}, \textsc{textsc}
+\end{itemize}
+
+\subsection{Otoczenia}
+
+Wiele efektów w~\LaTeX{}-u uzyskuje się nie za pomocą komend, lecz środowisk (\emph{environment}). Środowiska stosuje się nastepująco:\begin{verbatim}\begin{nazwa}
+trolololo lo lololo lololo
+...
+\end{nazwa}\end{verbatim}Dozwolone jest zagnieżdżanie (\verb+\begin{A}\begin{B}\end{B}\end{A}+), ale nie przekrywanie \\(\verb+\begin{A}\begin{B}\end{A}\end{B}+) środowisk.
+
+Przykładami środowisk są \texttt{flushleft}, \texttt{flushright} i \texttt{center}. Ich zawartość składana jest odpowiednio wyrównana do lewej, do prawej krawędzi strony lub wycentrowana.
+
+Środowiska \texttt{itemize}, \texttt{enumerate} i~\texttt{description} tworzą listy wypunktowane, numerowane oraz opisowe. Komendą tworzącą kolejne punkty wewnątrz środowiska jest \verb+\item+.
+
+
+\section{Tryb matematyczny}
+
+\LaTeX świetnie nadaje się do składania dokumentów z dużą liczbą wzorów matematycznych. Żeby niektóre rozwiązania zadziałały, trzeba jednak dołączyć stosowne pakiety. 
+,,Bezpiecznym'' zestawem do pracy z~matematyką dla początkujących jest \texttt{latexsym}, \texttt{amsmath}, \texttt{amssymb}, \texttt{amsthm}, \texttt{gensymb}.
+
+ Wzory w~\LaTeX{}-u można składać dwojako --- w~obrębie akapitu lub w~osobnej linii. W~pierwszym przypadku umieszczamy wzór pomiędzy znakami \texttt{\$}, np. \verb+$E=mc^2$+. W~drugim przypadku stosujemy środowisko \texttt{equation}. Wzory złożone tymi sposobami mogą się różnić.
+
+ Należy pamiętać, że spacje w~źródle w~trybie matematycznym są ignorowane. \LaTeX{} automatycznie stosuje ,,właściwe'' odstępy między poszczególnymi symbolami. Konsekwencją takiego zachowania \LaTeX{}-a jest nieznaczne utrudnienie w~składaniu ułamków dziesiętnych zgodnie z~polską konwencją --- domyślnie przecinek wyposażony jest w~odstęp. Zatem zamiast \verb+1,23+ ($1,23$) używamy \verb+1{,}23+ ($1{,}23$).
+ 
+\paragraph{Kilka ważnych poleceń}
+\begin{itemize}
+\item Litery greckie otrzymujemy komendami będącymi ich angielskimi nazwami, np. \verb+\alpha\phi+. Litery wielkie (ale tylko takie, które różnią się od liter alfabetu łacińskiego) otrzymujemy podobnie, tj. \verb+\Omega\Phi+. Kilka spośród ogromnych ilości dostępnych symboli zestawiono w~Tabeli \ref{mathznaki}, wraz z~alternatywnymi wersjami trzech greckich liter.
+
+\item \verb+^+ i~\verb+_+ tworzą indeksy górne i~dolne. By umieścić w~indeksie kilka znaków, należy je zgrupować (wziąć w~nawiasy wąsate). Indeksy można zagnieżdżać. Przykład: \verb+A_{ij}^{e^2}+ to $A_{ij}^{e^2}$.
+
+\item \verb+\frac{a}{b}+ składa ułamek, $\frac{a}{b}$. \verb+\binom{n}{k}+ składa współczynnik dwumianowy, $\binom{n}{k}$. \verb+\sqrt[n]{a}+ składa pierwiastek $n$-tego stopnia, $\sqrt[n]{a}$. Bez argumentu opcjonalnego -- pierwiastek kwadratowy, $\sqrt2$.
+
+\item By automatycznie rozciągnąć nawiasy do rozmiaru zawartych w~nich wyrażeń, stosujemy modyfikatory \verb+\left+ i~\verb+\right+, np. \verb+(\frac12)\quad\left(\frac12\right)+ daje efekt
+\begin{equation}(\frac12)\quad\left(\frac12\right)\label{delimit}\end{equation}
+(\verb+\quad+ generuje odstęp, a \verb+\qquad+ podwójny odstęp). Zamiast nawiasów okrągłych możemy stosować kwadratowe, kątowe, wąsate, znaki wartości bezwzględnej, itd. 
+\item Macierze i~układy równań składamy za pomocą środowiska \texttt{array} o~działaniu i~składni identycznej jak \texttt{tabular}. 
+\end{itemize}
+
+\begin{table}
+\begin{center}
+\begin{tabular}{ccp{1.5cm}ccp{1.5cm}cc}[h]
+\verb+\epsilon+ & $\epsilon$ && \verb+\sigma+ & $\sigma$ && \verb+\phi+ & $\phi$ \\
+\verb+\varepsilon+ & $\varepsilon$ && \verb+\varsigma+ & $\varsigma$ && \verb+\varphi+ & $\varphi$ \\
+\verb+\geq+ & $\geq$ && \verb+\leq+ & $\leq$ && \verb+\neq+ & $\neq$ \\
+\verb+\neg+ & $\neg$ && \verb+\vee+ & $\vee$ && \verb+\wedge+ & $\wedge$ \\
+\verb+\Rightarrow+ & $\Rightarrow$ && \verb+\Leftrightarrow+ & $\Leftrightarrow$ && \verb+\times+ & $\times$ \\
+\verb+\in+ & $\in$ && \verb+\cdots+ & $\cdots$ && \verb+\cdot+ & $\cdot$ \\ 
+\verb+\langle+ & $\langle$ && \verb+\rangle+ & $\rangle$ && \verb+\log+ & $\log$ \\
+\verb+\sin+ & $\sin$ && \verb+\cos+ & $\cos$ && \verb+\tg+ & $\tg$ \\
+
+\verb+\int+ & $\int$ && \verb+\lim+ & $\lim$ && \verb+\in+ & $\in$\\
+\end{tabular}
+\end{center}
+\caption{Kilka symboli matematycznych \LaTeX{}a. Warto pamiętać o istnieniu specjalnych poleceń dla funkcji trygonometrycznych itp., żeby składać je jako ,,$\sin x$'', a nie ,,$sin x$''}
+\label{mathznaki}
+\end{table}
+
+\section{Tabelki, wstawki, odwołania}
+Środowisko \texttt{tabular} służy do składania tabel. Przyjmuje obowiązkowy argument, stanowiący opis rozkładu kolumn tabeli. Działanie tego środowiska najprościej zrozumieć na przykładzie, o, proszę, taki kod:
+\begin{verbatim}\begin{tabular}{|r||cl|}\hline
+1 & 2 & 3 \\
+marchew & jabłko & seler \\ \hline\hline
+\end{tabular}\end{verbatim}
+generuje taką tabelkę:
+\begin{center}\begin{tabular}{|r||cl|}\hline
+1 & 2 & 3 \\
+marchew & jabłko & seler \\ \hline\hline
+\end{tabular}\end{center}
+
+Tabele można umieszczać wewnątrz środowiska \texttt{table}, które automatycznie umieszcza je na dole strony (albo w innym miejscu, zasugerowanym przez nas w argumencie opcjonalnym, np. \texttt{h} --- jak najbliżej tego miejsca, w którym umieszczona jest w kodzie, \texttt{p} --- na osobnej stronie). Ponadto otoczenie to umożliwia dodanie podpisu (komenda \verb+\caption{Podpis}+).
+ Podobnie działa środowisko \texttt{figure}, które różni się użyciem słowa ,,Rysunek'' zamiast ,,Tabela'' w~podpisie i~paroma innymi niuansami. 
+
+Wstawki i równania są automatycznie numerowane i potem możemy się do nich odwoływać. Jeśli w~dowolnym miejscu dokumentu umieścimy komendę-znacznik \verb+\label{nazwa}+, to za pomocą komend \verb+\ref{nazwa}+ i~\verb+\pageref{nazwa}+ umieścimy w~tekście automatycznie odpowiednio numer jednostki organizacyjnej (sekcji, subsekcji, tabeli, rysunku, równania), w~której znalazł się znacznik, oraz numer odpowiedniej strony. Polecenie \verb+\eqref{nazwa}+ służy do odwoływania się do równań -- różni się od \verb+\ref+ tylko nawiasami. Często do poprawnego wyświetlania odwołań potrzebna jest dwukrotna kompilacja.
+
+\section{Pakiet \texttt{beamer}}
+
+\LaTeX oferuje także możliwość tworzenia prezentacji multimedialnych. Służy do tego klasa \texttt{beamer}. Dostępnych jest kilka szablonów w różnych wersjach kolorystycznych. Warto zainteresować się tym wcześniej, żeby nie mieć potem problemu w noc przed wygłaszaniem Ważnej Prezentacji. 
+
+\section{Instalacja \LaTeX a}
+
+Gdy wrócicie do domu z obozu, możecie zapragnąć poszerzyć swoją wiedzę o \LaTeX u, albo po prostu chcieć stworzyć jakiś cieszący oko dokument. W tym celu powinniście zaopatrzyć się w odpowiednie oprogramowanie: sam system \LaTeX oraz edytor tekstu/kodu. Na temat instalacji tego pierwszego nie potrafię się chyba wypowiedzieć ładniej niż instrukcja, którą kiedyś dostałam, oddajmy więc głos Pawłowi.
+
+\subsection{\textit{Jak zainstalować \TeX-a na swoim komputerze nie namyślając się zbytnio} by PLG}
+
+\subsubsection*{Windows (XP, o~Viśtach i~siódemkach nic nie wiem i~wiedzieć nie chcę)}
+\begin{itemize}
+\item Wchodzimy na stronę \texttt{http://miktex.org/} i~wybieramy dział ,,Download/MiKTeX 2.9'' (najnowszy).
+\item W~dziale ,,Installing a~basic MiK\TeX{} system'' wybieramy w~formularzu któryś mirror i~klikamy ,,Download'', pobieramy plik.
+\item Idziemy na herbatę.
+\item Uruchamiamy pobrany plik i~postępujemy jak zawsze (,,Next'', ,,Next'', ,,Next''\ldots). Kiedy instalator pyta ,,Install missing packages on-the-fly?'', wybieramy ,,Ask me first'' albo jeszcze lepiej ,,Yes'' (można to potem zmienić gdzieś w~ustawieniach MiK\TeX-a).
+\item Kiedy docieramy do etapu ,,Executing'', idziemy na herbatę.
+\item Klikamy ,,Next'', ,,Close''.
+\item W~ustawieniach (,,Menu Start/Programy/MiKTeX 2.9/Settings'') na karcie ,,Languages'' zaptaszamy ,,Polish'' i~zatwierdzamy. Nie idziemy na herbatę, bo tym razem to nie potrwa długo.
+\end{itemize}
+
+To zasadniczo wszystko, musimy się jednak liczyć z~tym, że za każdym razem, kiedy będziemy używać po raz pierwszy jakiejś klasy czy pakietu, uruchomi się proces ich pobierania. W~takiej sytuacji, jeśli włączona jest opcja %\footnote{co swoją drogą można oczywiście zmienić gdzieś w~konfiguracji MiK\TeX-a}
+,,Ask me first'', trzeba potwierdzić instalację każdej kolejnej paczki.
+
+Można też (np. przewidując pracę bez dostępu do Internetu) zainstalować pewne paczki ręcznie (nie wiem jak) lub przez skompilowanie minimalnego dokumentu, który by je wykorzystywał. Dobry zestaw, który pewnie wystarczy nam na dłu-u-ugo, to klasa \texttt{beamer} oraz pakiety
+\begin{center}\texttt{parskip}, \texttt{latexsym}, \texttt{gensymb}, \texttt{amsmath}, \texttt{amssymb}, \texttt{amsthm}, \texttt{graphicx}, \texttt{pifont}, \texttt{geometry}, \texttt{bbm}, \\\texttt{textcomp}, \texttt{xcolor}, \texttt{indentfirst}, \texttt{multicol}, \texttt{multirow}, \texttt{mathcomp}, \texttt{float}, \texttt{fancyhdr}, \texttt{hyperref}\end{center}
+(część z~nich może już być zainstalowanych w~minimalnej instalacji MiK\TeX-a).
+
+\subsubsection*{Linux, dystrybucje debianopodobne}
+
+Za pomocą naszego ulubionego zarządcy pakietów (oprogramowania, a~nie \TeX-owych, a~więc chodzi o~\texttt{apt-get}, \texttt{synaptic}, \texttt{aptitude} czy jakąś inną nakładkę na APT-a) instalujemy następujące pakiety:
+\begin{center}\texttt{texlive}, \texttt{texlive-latex-extra}, \texttt{texlive-lang-polish}, \texttt{texlive-math-extra}, \texttt{texlive-metapost}, \texttt{latex-beamer}\end{center}
+Następnie robimy \texttt{sudo texconfig}, wybieramy ,,Hyphenation'', ,,pdflatex'', i~znajdujemy się w~edycji pliku konfiguracyjnego. Znajdujemy linię postaci
+\begin{quote}\texttt{\%polish\ \ \ \ jakaśnazwa.tex}\end{quote}
+i~odkomentowywujemy ją (usuwamy z~początku \texttt{\%}), zapisujemy plik. Wybieramy ,,Rehash'', czekamy, wybieramy ,,Exit''.
+
+\subsubsection*{Linux, inne dystrybucje}
+
+Jeśli nasza dystrybucja ma jakiegoś zarządcę pakietów (oprogramowania), to próbujemy znaleźć w~nim pakiety o~podobnych nazwach jak powyższe i~je instalujemy. Jeśli nie\ldots{} to znaczy, że jesteśmy duzi i~radzimy sobie sami! Krok drugi (\texttt{sudo texconfig}) przeprowadzamy tak, jak powyżej.
+
+\subsubsection*{Makintosze}
+
+Jeśli instalacji nie umiemy wywołać samą myślą, dzwonimy do Steve'a i~on zrobi to za nas.
+
+\subsection{Instalacja edytora}
+
+Tu już wypowiem się sama. Wiele osób, nawet pracujących w \LaTeX u na co dzień, używa prostych edytorów typu gedit/notatnik. Osobiście jednak polecam zaopatrzenie się w jakiś specjalny \LaTeX owy program, bo to bardzo ułatwia życie. 
+
+Na każdym z systemów mamy do wyboru co najmniej kilka wartych uwagi środowisk do pracy z \LaTeX owym kodem. Osobiście używam i polecam darmowy, open-source'owy i dostępny na wszystkie platformy program TeXmaker, który koloruje składnię, podpowiada komendy, posiada mnóstwo skrótów klawiszowych, co bardzo przyspiesza pisanie, a efekty naszej pracy możemy podglądać prawie na bieżąco dzięki wbudowanemu kompilatorowi. 
+
+Inne znane środowiska dla Linuksa to choćby \TeX Live lub Kile, użytkownicy Okienek mogą się natomiast zaopatrzyć w program \TeX nicCenter albo LEd. Edytorów na Nadgryzione Jabłuszka nie znam, a Internet w obozie akurat wysiadł, zainteresowanym polecam więc wywołanie ducha Steve'a, który z pewnością coś Wam poleci.
+
+\section{Źródła wiedzy}
+
+Podstawową i niemalże obowiązkową pozycją jest \textit{ebook} \cite{lshort} (w wersji polskiej \cite{lshort_pl}), czyli tzw. \texttt{lshort}. W zasadzie, dla poszerzenia ogólnego oglądu, warto go przeczytać od deski do deski, a potem, przy okazji konkretnych problemów, zaglądać tylko do odpowiednich rozdziałów. 
+
+Poza \texttt{lshortem} najczęściej używamy po prostu googli. Poza rozwiązaniami konkretnych problemów, można też znaleźć fajne pliczki, jak np. \cite{pakin}.
+
+Paweł twierdzi też, że pozycje \cite{lamport} i \cite{companion} są ,,legendarne'', a ja mu wierzę na słowo --- sama nigdy żadnej publikacji książkowej o \LaTeX u nie czytałam i jakoś z tym żyję, choć to wcale nie znaczy, że nie warto się zapoznać. 
+
+Czasem przydatna jest także pomoc prawdziwych, żywych ludzi. Wiele osób z kadry \LaTeX a zna i używa, ale nie chcę się tu za nikogo wypowiadać, powiem więc tylko, że w razie pytań możecie pisać do mnie na: \url{makacz@op.pl}.
+
+\begin{thebibliography}{9}
+\bibitem{lshort} T. Oetiker i in., \emph{The Not So Short Introduction To \LaTeXe}, \url{http://www.ctan.org/tex-archive/info/lshort}
+\bibitem{lshort_pl} T. Oetiker i in., \textit{Nie za krótkie wprowadzenie do systemu \LaTeXe}, \url{http://www.ctan.org/tex-archive/info/lshort/polish/}
+\bibitem{pakin} S. Pakin, \emph{The Comprehensive \LaTeX{} Symbol List}, 22 września 2005.
+\bibitem{lamport} L. Lamport, \emph{\LaTeX{}: A Document Preparation System}, Addison-Wesley, Reading, Mass., 1994.
+\bibitem{companion} F. Mittelbach i in., \emph{The \LaTeX{} Companion}, Addison-Wesley, Reading, Mass., 2004.
+\end{thebibliography}
+
+
+\end{document}
